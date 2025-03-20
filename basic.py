@@ -1,19 +1,20 @@
 import pygame
+from settings import Settings
+
+gm_set = Settings()
 
 pygame.init()
-(width, height) = (800, 600)
-screen = pygame.display.set_mode((width, height))
-clock = pygame.time.Clock()
+screen = pygame.display.set_mode((gm_set.screen_width, gm_set.screen_height))
+pygame.display.set_caption(gm_set.caption)
 running = True
 
-for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-        running = False
-        
-    screen.fill("dark blue")
+while running: 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+            
+        screen.fill("dark blue")
 
-    pygame.display.flip()
-    
-    pygame.display.set_caption('Bubbler blaster')
+        pygame.display.flip()
         
 pygame.quit()
