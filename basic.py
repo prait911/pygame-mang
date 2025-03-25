@@ -2,8 +2,8 @@ import pygame
 from settings import Settings
 
 gm_set = Settings()
-
 pygame.init()
+
 screen = pygame.display.set_mode((gm_set.screen_width, gm_set.screen_height))
 pygame.display.set_caption(gm_set.caption)
 running = True
@@ -13,7 +13,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             
-        screen.fill("dark blue")
+        screen.fill(gm_set.bg_color)
 
         pygame.display.flip()
         
