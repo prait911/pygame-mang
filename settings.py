@@ -5,3 +5,4 @@ class Settings:
         self.bg_color = (0, 0, 139)
         self.caption = ("Bubbler bluster")
         
+        
