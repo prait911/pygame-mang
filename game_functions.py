@@ -6,7 +6,7 @@ pygame.init()
 ADDBUBBLE = pygame.USEREVENT + 1
 pygame.time.set_timer(ADDBUBBLE, 250)
 
-def check_events(player, screen, gm_set, bubbles):
+def check_events(player, screen, gm_set, bubbles, stats, play_button):
     """kontrollib mängija klaviatuuri"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -33,6 +33,14 @@ def check_events(player, screen, gm_set, bubbles):
                 
         elif event.type == ADDBUBBLE:
             create_bubble(gm_set, screen, bubbles)
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_button(stats, play_button, mouse_x, mouse_y)
+
+def check_play_button(stats, play_button, mouse_x, mouse_y):
+    if play_button.rect.collidepoint(mouse_x, mouse_y):
+        stats.game_active = True
             
 
 def create_bubble(game_settings, screen, bubbles):
@@ -40,15 +48,18 @@ def create_bubble(game_settings, screen, bubbles):
     bubbles.add(new_bubble)
     
 
-def update_bubbles(player,bubbles):
+def update_bubbles(player, bubbles, stats, sb):
     hitted_bubble = pygame.sprite.spritecollideany(player, bubbles)
     if hitted_bubble != None:
+        stats.score += hitted_bubble.bubble_radius
+        sb.prepare_score()
+        print(stats.score)
         hitted_bubble.kill()
                 
                 
                 
             
-def update_screen(game_settings, screen, player, bubbles, clock):
+def update_screen(game_settings, screen, player, bubbles, clock, stats, play_button, sb):
 
     screen.fill(game_settings.bg_color)
     
@@ -57,7 +68,12 @@ def update_screen(game_settings, screen, player, bubbles, clock):
     for bubble in bubbles:
         bubble.blit_me()
         
-        clock.tick(10)
+    sb.draw_score()
+        
+    clock.tick(30)
+        
+    if not stats.game_active:
+        play_button.draw_button()
     
     pygame.display.flip()
     
